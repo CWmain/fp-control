@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://bcv0btddxwdbj"]
+
+[ext_resource type="PackedScene" uid="uid://cyd57n4g81vyg" path="res://Objects/Player/player.tscn" id="1_a02cp"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_a02cp"]
+
+[sub_resource type="Sky" id="Sky_go701"]
+sky_material = SubResource("PanoramaSkyMaterial_a02cp")
+
+[sub_resource type="Environment" id="Environment_a02cp"]
+background_color = Color(1, 1, 1, 1)
+sky = SubResource("Sky_go701")
+ambient_light_source = 3
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yp4wr"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_a02cp"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_go701"]
+size = Vector2(100, 100)
+orientation = 1
+
+[node name="World" type="Node3D" unique_id=1034604185]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1236799855]
+environment = SubResource("Environment_a02cp")
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1680798010]
+physics_material_override = SubResource("PhysicsMaterial_yp4wr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1674043319]
+shape = SubResource("WorldBoundaryShape3D_a02cp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1199238437]
+mesh = SubResource("QuadMesh_go701")
+
+[node name="CharacterBody3D" parent="." unique_id=2137776179 instance=ExtResource("1_a02cp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 3, 3)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1333494932]
+transform = Transform3D(-0.99907845, 0, 0.042921856, 0, 1, 0, -0.042921856, 0, -0.99907845, 0, 1, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=611703443]
+transform = Transform3D(-0.1643743, -0.41459006, 0.8950397, 0.5431235, 0.7194062, 0.43297988, -0.82340634, 0.5572879, 0.10692175, 13.696182, 5.1917477, 9.034411)
