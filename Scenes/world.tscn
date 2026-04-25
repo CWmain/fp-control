@@ -2,14 +2,20 @@
 
 [ext_resource type="PackedScene" uid="uid://cyd57n4g81vyg" path="res://Objects/Player/player.tscn" id="1_a02cp"]
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_a02cp"]
+[sub_resource type="Gradient" id="Gradient_a02cp"]
 
-[sub_resource type="Sky" id="Sky_go701"]
-sky_material = SubResource("PanoramaSkyMaterial_a02cp")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_go701"]
+gradient = SubResource("Gradient_a02cp")
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_5a7ea"]
+panorama = SubResource("GradientTexture1D_go701")
+
+[sub_resource type="Sky" id="Sky_8j60k"]
+sky_material = SubResource("PanoramaSkyMaterial_5a7ea")
 
 [sub_resource type="Environment" id="Environment_a02cp"]
 background_color = Color(1, 1, 1, 1)
-sky = SubResource("Sky_go701")
+sky = SubResource("Sky_8j60k")
 ambient_light_source = 3
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yp4wr"]

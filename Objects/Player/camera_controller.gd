@@ -22,7 +22,9 @@ func update_camera_rotation(input: Vector2) -> void:
 	var _player_rotation = Vector3(0.0, _rotation.y, 0.0)
 	var _camera_rotation = Vector3(_rotation.x, 0.0 ,0.0)
 	
-	transform.basis = Basis.from_euler(_camera_rotation)
+	player_controller.camera_controller_anchor.transform.basis = Basis.from_euler(_camera_rotation)
 	player_controller.update_rotation(_player_rotation)
+	
+	global_transform = player_controller.camera_controller_anchor.get_global_transform_interpolated()
 	
 	_rotation.z = 0

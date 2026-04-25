@@ -1,7 +1,9 @@
 class_name PlayerController extends CharacterBody3D
 
-@export var acceleration: float = 2
-@export var deceleration: float = 2
+@export var acceleration: float = 20
+@export var deceleration: float = 20
+
+@onready var camera_controller_anchor: Marker3D = $CameraControllerAnchor
 
 var _input_dir : Vector2 = Vector2.ZERO
 var _movement_velocity : Vector3 = Vector3.ZERO
@@ -21,9 +23,9 @@ func _physics_process(delta: float) -> void:
 	print(direction)
 	
 	if direction:
-		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration)
+		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration * delta)
 	else:
-		current_velocity = current_velocity.move_toward(Vector2.ZERO, deceleration)
+		current_velocity = current_velocity.move_toward(Vector2.ZERO, deceleration * delta)
 	
 	_movement_velocity = Vector3(current_velocity.x, velocity.y, current_velocity.y)
 	velocity = _movement_velocity
