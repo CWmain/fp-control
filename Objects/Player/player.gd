@@ -20,7 +20,6 @@ func _physics_process(delta: float) -> void:
 
 	var current_velocity = Vector2(_movement_velocity.x, _movement_velocity.z)
 	var direction = (transform.basis * Vector3(_input_dir.x, 0.0, _input_dir.y)).normalized()
-	print(direction)
 	
 	if direction:
 		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration * delta)
