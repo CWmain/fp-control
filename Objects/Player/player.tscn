@@ -4,7 +4,8 @@
 [ext_resource type="Script" uid="uid://c5qxrul2sp2lf" path="res://Objects/Player/camera_controller.gd" id="2_l2ya6"]
 [ext_resource type="PackedScene" uid="uid://c8cr3ofoen0ay" path="res://Component/mouse-capture/mouse_capture.tscn" id="2_yw17q"]
 [ext_resource type="PackedScene" uid="uid://cxj2jeeh6u134" path="res://Component/state_machine/state_machine.tscn" id="4_t45n6"]
-[ext_resource type="PackedScene" uid="uid://c07oyui7qxonq" path="res://Objects/Player/player-states/grounded.tscn" id="6_u7612"]
+[ext_resource type="PackedScene" uid="uid://irpufsfwmj26" path="res://Objects/Player/player-states/air/air.tscn" id="6_bpp7x"]
+[ext_resource type="PackedScene" uid="uid://c07oyui7qxonq" path="res://Objects/Player/player-states/grounded/grounded.tscn" id="6_u7612"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ojbdc"]
 
@@ -40,4 +41,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 state_owner = NodePath("..")
 current_state = NodePath("Grounded")
 
-[node name="Grounded" parent="state_machine" unique_id=248961556 instance=ExtResource("6_u7612")]
+[node name="Grounded" parent="state_machine" unique_id=248961556 node_paths=PackedStringArray("air_state") instance=ExtResource("6_u7612")]
+air_state = NodePath("../Air")
+
+[node name="Air" parent="state_machine" unique_id=1792970286 node_paths=PackedStringArray("grounded_state") instance=ExtResource("6_bpp7x")]
+grounded_state = NodePath("../Grounded")

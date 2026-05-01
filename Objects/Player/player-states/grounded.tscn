@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://c07oyui7qxonq"]
-
-[ext_resource type="Script" uid="uid://basm10gyis0y1" path="res://Objects/Player/player-states/grounded.gd" id="1_qxwsx"]
-
-[node name="Grounded" type="Node" unique_id=248961556]
-script = ExtResource("1_qxwsx")
-metadata/_custom_type_script = "uid://d01rvj2l0upga"

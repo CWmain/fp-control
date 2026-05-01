@@ -1,11 +1,7 @@
 extends State
 
-@export var state_owner: Node
+func _validate_owner(): pass
 
-func state_call() -> void:
+func state_call(delta: float) -> void:
 	print("Unimplemented State Called")
 	return
-
-func state_next() -> State:
-	print("Unimplemented Next State called")
-	return null
