@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://46ofeadlwko2"]
+
+[ext_resource type="Script" uid="uid://7f6qqg4ddlun" path="res://Objects/Player/player-states/crouching/crouching.gd" id="1_2o1dn"]
+
+[node name="crouching" type="Node" unique_id=415964190]
+script = ExtResource("1_2o1dn")
+metadata/_custom_type_script = "uid://d01rvj2l0upga"

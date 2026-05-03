@@ -2,27 +2,27 @@ extends State
 
 @export var acceleration: float = 20
 @export var deceleration: float = 20
-@export var jump_speed: float = 500
 
-@export var air_state: State
-@export var crouching_state: State
+@export var grounded_state: State
 
 var _input_dir : Vector2 = Vector2.ZERO
 var _movement_velocity : Vector3 = Vector3.ZERO
-var speed : float = 5.0
+var speed : float = 2.5
 
-func _validate_owner():
-	assert(state_owner is CharacterBody3D, "%s: state_owner must be a CharacterBody3D, not %s!" % [name, state_owner.get_class()])
+func _validate_owner(): pass
 
 func state_call(delta: float) -> void:
-	state_owner.camera_controller.update_camera_height(delta, 1)
-	movementLogic(delta)
+	# Disable standing collision when crouching
+	state_owner.crouch_collision.disabled = false
+	state_owner.standing_collision.disabled = true
 	
-	if !state_owner.is_on_floor():
-		state_next.emit(air_state)
+	state_owner.camera_controller.update_camera_height(delta, -1)
+	
+	if !Input.is_action_pressed("crouch") and !state_owner.head_check.is_colliding():
+		# Check the "head" raycast
+		state_next.emit(grounded_state)
 		
-	if Input.is_action_just_pressed("crouch"):
-		state_next.emit(crouching_state)
+	movementLogic(delta)
 
 func movementLogic(delta: float) -> void:
 	_input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -37,8 +37,5 @@ func movementLogic(delta: float) -> void:
 	
 	_movement_velocity = Vector3(current_velocity.x, state_owner.velocity.y, current_velocity.y)
 	state_owner.velocity = _movement_velocity
-	
-	if Input.is_action_just_pressed("move_jump"):
-		state_owner.velocity.y += jump_speed*delta 
 	
 	state_owner.move_and_slide()

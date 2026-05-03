@@ -6,17 +6,26 @@
 [ext_resource type="PackedScene" uid="uid://cxj2jeeh6u134" path="res://Component/state_machine/state_machine.tscn" id="4_t45n6"]
 [ext_resource type="PackedScene" uid="uid://irpufsfwmj26" path="res://Objects/Player/player-states/air/air.tscn" id="6_bpp7x"]
 [ext_resource type="PackedScene" uid="uid://c07oyui7qxonq" path="res://Objects/Player/player-states/grounded/grounded.tscn" id="6_u7612"]
+[ext_resource type="PackedScene" uid="uid://46ofeadlwko2" path="res://Objects/Player/player-states/crouching/crouching.tscn" id="7_bpp7x"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ojbdc"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_u7612"]
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_y0qk3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bpp7x"]
 
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=2137776179 node_paths=PackedStringArray("state_machine")]
 script = ExtResource("1_156m4")
 state_machine = NodePath("state_machine")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=11009279]
+[node name="StandingCollision" type="CollisionShape3D" parent="." unique_id=11009279]
 shape = SubResource("CapsuleShape3D_ojbdc")
+
+[node name="CrouchCollision" type="CollisionShape3D" parent="." unique_id=1239256297]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("SphereShape3D_u7612")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=476242657]
 mesh = SubResource("CapsuleMesh_y0qk3")
@@ -41,8 +50,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 state_owner = NodePath("..")
 current_state = NodePath("Grounded")
 
-[node name="Grounded" parent="state_machine" unique_id=248961556 node_paths=PackedStringArray("air_state") instance=ExtResource("6_u7612")]
+[node name="Grounded" parent="state_machine" unique_id=248961556 node_paths=PackedStringArray("air_state", "crouching_state") instance=ExtResource("6_u7612")]
 air_state = NodePath("../Air")
+crouching_state = NodePath("../crouching")
 
 [node name="Air" parent="state_machine" unique_id=1792970286 node_paths=PackedStringArray("grounded_state") instance=ExtResource("6_bpp7x")]
 grounded_state = NodePath("../Grounded")
+
+[node name="crouching" parent="state_machine" unique_id=415964190 node_paths=PackedStringArray("grounded_state") instance=ExtResource("7_bpp7x")]
+grounded_state = NodePath("../Grounded")
+
+[node name="HeadCheck" type="ShapeCast3D" parent="." unique_id=977360493]
+shape = SubResource("SphereShape3D_bpp7x")
+target_position = Vector3(0, 0.5, 0)
