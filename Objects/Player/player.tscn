@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bgptbfbx3c3r0" path="res://Objects/Player/player.gd" id="1_156m4"]
 [ext_resource type="Script" uid="uid://c5qxrul2sp2lf" path="res://Objects/Player/camera_controller.gd" id="2_l2ya6"]
 [ext_resource type="PackedScene" uid="uid://c8cr3ofoen0ay" path="res://Component/mouse-capture/mouse_capture.tscn" id="2_yw17q"]
+[ext_resource type="PackedScene" uid="uid://bynjhdg13807k" path="res://Objects/Player/interaction_raycast/interaction_raycast.tscn" id="3_jllbl"]
 [ext_resource type="PackedScene" uid="uid://cxj2jeeh6u134" path="res://Component/state_machine/state_machine.tscn" id="4_t45n6"]
 [ext_resource type="PackedScene" uid="uid://irpufsfwmj26" path="res://Objects/Player/player-states/air/air.tscn" id="6_bpp7x"]
 [ext_resource type="PackedScene" uid="uid://c07oyui7qxonq" path="res://Objects/Player/player-states/grounded/grounded.tscn" id="6_u7612"]
@@ -38,6 +39,8 @@ player_controller = NodePath("..")
 component_mouse_capture = NodePath("../Components/mouse-capture")
 
 [node name="Camera3D" type="Camera3D" parent="CameraController" unique_id=1099818895]
+
+[node name="InteractionRaycast" parent="CameraController/Camera3D" unique_id=1380859407 instance=ExtResource("3_jllbl")]
 
 [node name="Components" type="Node" parent="." unique_id=64826904]
 

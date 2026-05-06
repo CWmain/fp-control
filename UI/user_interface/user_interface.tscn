@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dimjclryjx2by"]
+
+[ext_resource type="PackedScene" uid="uid://c45r3ehn1qtf1" path="res://UI/reticle_draw/reticle_draw.tscn" id="1_ol7bg"]
+
+[node name="UserInterface" type="CanvasLayer" unique_id=2102513277]
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1466596231]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="reticle_draw" parent="CenterContainer" unique_id=643154187 instance=ExtResource("1_ol7bg")]
+layout_mode = 2
