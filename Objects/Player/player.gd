@@ -3,6 +3,8 @@ class_name PlayerController extends CharacterBody3D
 @export var state_machine: State_Machine
 @onready var camera_controller_anchor: Marker3D = $CameraControllerAnchor
 
+@onready var cameraEffects: CameraEffects = $CameraController/Camera3D
+
 @onready var interaction_raycast: RayCast3D = $CameraController/Camera3D/InteractionRaycast
 
 @onready var camera_controller: CameraController = $CameraController
