@@ -16,8 +16,14 @@ func _ready() -> void:
 	crouch_collision.disabled = true
 	standing_collision.disabled = false
 
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("screen_shake"):
+		cameraEffects.add_screen_shake(1, 0.5)
+
 func update_rotation(rotation_input) -> void:
 	global_transform.basis = Basis.from_euler(rotation_input)
 
 func _physics_process(delta: float) -> void:
+	if Input.is_action_pressed("player_shoot"):
+		cameraEffects.add_weapon_kick(1, 4, 4)
 	state_machine.state_call(delta)

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bcv0btddxwdbj"]
 
 [ext_resource type="PackedScene" uid="uid://cyd57n4g81vyg" path="res://Objects/Player/player.tscn" id="1_a02cp"]
+[ext_resource type="PackedScene" uid="uid://cnslxx5t8eju5" path="res://Objects/damage_source/damage_source.tscn" id="2_go701"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_a02cp"]
 
@@ -59,3 +60,7 @@ shape = SubResource("CylinderShape3D_a02cp")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=355681632]
 mesh = SubResource("CylinderMesh_a02cp")
+
+[node name="damageSource" parent="." unique_id=627571229 node_paths=PackedStringArray("player") instance=ExtResource("2_go701")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.182159, 5.7711244)
+player = NodePath("../CharacterBody3D")

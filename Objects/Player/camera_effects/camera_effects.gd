@@ -6,6 +6,10 @@ class_name CameraEffects extends Camera3D
 @export_category("Effects")
 @export var enable_tilt : bool = true
 @export var enable_fall_kick: bool = true
+@export var enable_damage_kick: bool = true
+@export var enable_weapon_kick: bool = true
+@export var enable_screen_shake: bool = true
+@export var enable_headbob: bool = true
 
 @export_category("Kick & Recoil Settings")
 @export_group("Run Tilt")
@@ -18,9 +22,33 @@ class_name CameraEffects extends Camera3D
 @export_subgroup("Fall Kick")
 @export var fall_time: float = 0.3
 
+@export_subgroup("Damage Kick")
+@export var damage_time: float = 0.3
+
+@export_subgroup("Weapon Kick")
+@export var weapon_decay: float = 0.5
+
+@export_subgroup("Headbob")
+@export_range(0.0, 0.1, 0.001) var bob_pitch: float = 0.05
+@export_range(0.0, 0.1, 0.001) var bob_roll: float = 0.025
+@export_range(0.0, 0.04, 0.001) var bob_up: float = 0.005
+@export_range(3.0, 8.0, 0.1) var bob_frequency: float = 6.0
+
+
 var _fall_value: float = 0.0
 var _fall_timer: float = 0.0
 
+var _damage_pitch: float = 0.0
+var _damage_roll: float = 0.0
+var _damage_timer: float = 0.0
+
+var _weapon_kick_angles: Vector3 = Vector3.ZERO
+
+var _screen_shake_tween: Tween
+const MIN_SCREEN_SHAKE: float = 0.05
+const MAX_SCREEN_SHAKE: float = 0.5
+
+var _step_timer: float = 0.0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -31,20 +59,49 @@ func calculate_view_offset(delta):
 		return
 	
 	_fall_timer -= delta
+	_damage_timer -= delta
 	
 	var velocity: Vector3 = player.velocity
 	var value_dictionary: Dictionary[String, Vector3] = {"angles": Vector3.ZERO, "offset": Vector3.ZERO}
 
-	# Camera Tilt
+	var speed = Vector2(velocity.x, velocity.z).length()
+	if speed > 0.1 and player.is_on_floor():
+		_step_timer += delta * (speed / bob_frequency)
+		_step_timer = fmod(_step_timer, 1.0)
+	else:
+		_step_timer = 0.0
+	var bob_sin = sin(_step_timer * 2.0 * PI) * 0.5
+
+	if enable_headbob:
+		var pitch_delta = bob_sin * deg_to_rad(bob_pitch) * speed
+		value_dictionary["angles"].x -= pitch_delta
+		
+		var roll_delta = bob_sin * deg_to_rad(bob_roll) * speed
+		value_dictionary["angles"].z -= roll_delta
+		
+		var bob_height = bob_sin * speed * bob_up
+		value_dictionary["offset"].y += bob_height
+
 	if enable_tilt:
 		cameraTilt(delta, value_dictionary, velocity)
 	
 	if enable_fall_kick:
 		fallKick(value_dictionary)
 	
+	if enable_damage_kick:
+		damageKick(value_dictionary)
+		
+	if enable_weapon_kick:
+		weaponKick(delta, value_dictionary)
+	
 	rotation = value_dictionary["angles"]
 	position = value_dictionary["offset"]
-	
+
+func damageKick(value_dictionary: Dictionary[String, Vector3]) -> void:
+	var damage_ratio = max(0.0, _damage_timer / damage_time)
+	value_dictionary["angles"].x += damage_ratio * _damage_pitch
+	value_dictionary["angles"].z += damage_ratio * _damage_roll
+
 func cameraTilt(delta, value_dictionary: Dictionary[String, Vector3], velocity: Vector3) -> void:	
 	var forward = global_transform.basis.z
 	var right = global_transform.basis.x
@@ -67,6 +124,40 @@ func fallKick(value_dictionary: Dictionary[String, Vector3]) -> void:
 	value_dictionary["angles"].x -= fall_kick_amount
 	value_dictionary["offset"].y -= fall_kick_amount
 	
+func weaponKick(delta, valueDictionary: Dictionary[String, Vector3]) -> void:
+	_weapon_kick_angles = _weapon_kick_angles.move_toward(Vector3.ZERO, weapon_decay*delta)
+	valueDictionary["angles"] += _weapon_kick_angles	
+
+func add_screen_shake(amount: float, seconds: float) -> void:
+	if _screen_shake_tween:
+		_screen_shake_tween.kill()
+	
+	_screen_shake_tween = create_tween()
+	_screen_shake_tween.tween_method(update_screen_shake.bind(amount), 0.0, 1.0, seconds).set_ease(Tween.EASE_OUT)
+
+func update_screen_shake(alpha: float, amount: float) -> void:
+	amount = remap(amount, 0.0, 1.0, MIN_SCREEN_SHAKE, MAX_SCREEN_SHAKE)
+	var current_shake_amount = amount * (1.0 - alpha)
+	h_offset = randf_range(-current_shake_amount, current_shake_amount)
+	v_offset = randf_range(-current_shake_amount, current_shake_amount)
+
 func add_fall_kick(fall_strength: float):
 	_fall_value = deg_to_rad(fall_strength)
 	_fall_timer = fall_time
+
+func add_damage_kick(pitch: float, roll: float, source: Vector3):
+	var forward = global_transform.basis.z
+	var right = global_transform.basis.x
+	var direction = global_position.direction_to(source)
+	var foward_dot = direction.dot(forward)
+	var right_dot = direction.dot(right)
+	
+	_damage_pitch = deg_to_rad(pitch) * foward_dot
+	_damage_roll = deg_to_rad(roll) * right_dot
+	_damage_timer = damage_time
+	
+func add_weapon_kick(pitch: float, yaw: float, roll: float) -> void:
+	_weapon_kick_angles.x += deg_to_rad(pitch)
+	_weapon_kick_angles.y += deg_to_rad(randf_range(-yaw, yaw))
+	_weapon_kick_angles.z += deg_to_rad(randf_range(-roll, roll))
+	

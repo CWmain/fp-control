@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://cnslxx5t8eju5"]
+
+[ext_resource type="Script" uid="uid://di2l1ihy3r3lu" path="res://Objects/damage_source/damage_source.gd" id="1_nkdge"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_vg4p4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nkdge"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nkdge"]
+
+[node name="damageSource" type="StaticBody3D" unique_id=627571229]
+script = ExtResource("1_nkdge")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1887466399]
+mesh = SubResource("CapsuleMesh_vg4p4")
+surface_material_override/0 = SubResource("StandardMaterial3D_nkdge")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1543398918]
+shape = SubResource("CapsuleShape3D_nkdge")
+
+[node name="DamageTimer" type="Timer" parent="." unique_id=881523891]
+wait_time = 0.5
+
+[connection signal="timeout" from="DamageTimer" to="." method="_on_damage_timer_timeout"]
