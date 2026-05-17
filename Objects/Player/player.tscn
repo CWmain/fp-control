@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bynjhdg13807k" path="res://Objects/Player/interaction_raycast/interaction_raycast.tscn" id="3_jllbl"]
 [ext_resource type="PackedScene" uid="uid://cxj2jeeh6u134" path="res://Component/state_machine/state_machine.tscn" id="4_t45n6"]
 [ext_resource type="PackedScene" uid="uid://irpufsfwmj26" path="res://Objects/Player/player-states/air/air.tscn" id="6_bpp7x"]
+[ext_resource type="PackedScene" uid="uid://d33hm56aneopl" path="res://Component/step_handler/step_handler.tscn" id="6_thffa"]
 [ext_resource type="PackedScene" uid="uid://c07oyui7qxonq" path="res://Objects/Player/player-states/grounded/grounded.tscn" id="6_u7612"]
 [ext_resource type="PackedScene" uid="uid://46ofeadlwko2" path="res://Objects/Player/player-states/crouching/crouching.tscn" id="7_bpp7x"]
 
@@ -48,6 +49,10 @@ player = NodePath("../..")
 [node name="Components" type="Node" parent="." unique_id=64826904]
 
 [node name="mouse-capture" parent="Components" unique_id=1315169211 instance=ExtResource("2_yw17q")]
+
+[node name="StepHandler" parent="Components" unique_id=1637604071 node_paths=PackedStringArray("player") instance=ExtResource("6_thffa")]
+player = NodePath("../..")
+step_height = 0.5
 
 [node name="CameraControllerAnchor" type="Marker3D" parent="." unique_id=103675518]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)

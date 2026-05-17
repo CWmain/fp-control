@@ -32,6 +32,10 @@ orientation = 1
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_a02cp"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_go701"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_5a7ea"]
+
 [node name="World" type="Node3D" unique_id=1034604185]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1236799855]
@@ -64,3 +68,24 @@ mesh = SubResource("CylinderMesh_a02cp")
 [node name="damageSource" parent="." unique_id=627571229 node_paths=PackedStringArray("player") instance=ExtResource("2_go701")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.182159, 5.7711244)
 player = NodePath("../CharacterBody3D")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=291648199]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1025348, 0, 0)
+
+[node name="Step" type="StaticBody3D" parent="Node3D" unique_id=1842430923]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.34278816, 2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/Step" unique_id=1961706036]
+shape = SubResource("BoxShape3D_go701")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/Step" unique_id=2133243817]
+mesh = SubResource("BoxMesh_5a7ea")
+
+[node name="Step2" type="StaticBody3D" parent="Node3D" unique_id=1138976119]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.034585834, 2.8445168)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/Step2" unique_id=1305119086]
+shape = SubResource("BoxShape3D_go701")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/Step2" unique_id=178854998]
+mesh = SubResource("BoxMesh_5a7ea")

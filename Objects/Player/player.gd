@@ -12,6 +12,8 @@ class_name PlayerController extends CharacterBody3D
 @onready var crouch_collision: CollisionShape3D = $CrouchCollision
 @onready var head_check: ShapeCast3D = $HeadCheck
 
+@onready var step_handler: StepHandlerComponenet = $Components/StepHandler
+
 func _ready() -> void:
 	crouch_collision.disabled = true
 	standing_collision.disabled = false
@@ -27,3 +29,9 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("player_shoot"):
 		cameraEffects.add_weapon_kick(1, 4, 4)
 	state_machine.state_call(delta)
+	
+	if is_on_floor():
+		step_handler.handle_step_climbing()
+
+func get_input_direction() -> Vector2:
+	return Input.get_vector("move_left", "move_right", "move_forward", "move_back")

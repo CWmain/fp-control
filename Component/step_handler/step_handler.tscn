@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d33hm56aneopl"]
+
+[ext_resource type="Script" uid="uid://bel702b6ngick" path="res://Component/step_handler/step_handler.gd" id="1_r6kit"]
+
+[node name="StepHandler" type="Node" unique_id=1637604071]
+script = ExtResource("1_r6kit")
